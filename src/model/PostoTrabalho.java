@@ -7,6 +7,8 @@ public class PostoTrabalho {
     private int unidadesProduzidas;
     private int intervaloManutencao;
     private boolean emManutencao;
+    private Transportadora entrada;
+    private Transportadora saida;
     // outros atributos necessários
 
     public PostoTrabalho(String id, int tipo, int tempoProcessamento, int intervaloManutencao) {
@@ -40,6 +42,22 @@ public class PostoTrabalho {
 
     public boolean estaEmManutencao() {
         return emManutencao;
+    }
+
+    public Transportadora getEntrada() {
+        return entrada;
+    }
+
+    public Transportadora getSaida() {
+        return saida;
+    }
+
+    public void setEntrada(Transportadora entrada) {
+        this.entrada = entrada;
+    }
+
+    public void setSaida(Transportadora saida) {
+        this.saida = saida;
     }
 
     public void iniciarProcessamento() {
