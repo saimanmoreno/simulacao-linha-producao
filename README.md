@@ -1,18 +1,5 @@
-## Getting Started
+## Trabalho: Simulação de uma Linha de Produção
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Neste trabalho vamos modelar, de forma simplificada, uma linha de produção constituída por diversos postos de trabalho interligadas por transportadoras e utilizar os princípios da simulação de eventos discretos para avaliar o seu desempenho.
 
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+Uma linha de produção (ou de montagem) é uma forma de produção em série que tira partido de uma sequência de processos especializados para aumentar a produção e reduzir custos.  Foi concebida por Henry Ford para a produção dos automóveis Ford no ano de 1913, sendo desde essa data considerada uma das maiores inovações tecnológicas da era industrial, pois graças a ela o tempo de produção sofreu um decréscimo significativo, permitindo que dessa maneira se produzisse em maior quantidade, o que mais tarde acabou por se refletir no preço dos produtos. As linhas de montagens são utilizadas desde então no processo de produção em série, para que o produto em fabricação seja deslocado ao longo dos postos de trabalho fixos (excecionalmente em linhas de produção de equipamentos extraordinariamente grandes como por aeronaves e navios, são os postos que se deslocam em torno do produto em fabricação).
