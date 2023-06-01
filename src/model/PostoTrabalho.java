@@ -23,51 +23,8 @@ public class PostoTrabalho {
         this.unidadesProduzidas = 0;
     }
 
-    public void conectarTransportadoraEntrada(Transportadora transportadora) {
-        this.transportadoraEntrada = transportadora;
-    }
-
-    public void conectarTransportadoraSaida(Transportadora transportadora) {
-        this.transportadoraSaida = transportadora;
-    }
-
-    public void processarProduto() {
-        // Iniciar processamento de um novo produto
-        if (estado == EstadoPosto.ESPERA || estado == EstadoPosto.PARADO) {
-            estado = EstadoPosto.OCUPADO;
-            unidadesProduzidas++;
-
-            if (tipo == TipoPosto.TIPO_I && unidadesProduzidas % intervaloManutencao == 0) {
-                // Realizar manutenção para o Tipo I
-                estado = EstadoPosto.MANUTENCAO;
-            } else if (tipo == TipoPosto.TIPO_II && unidadesProduzidas % intervaloManutencao == 0) {
-                // Realizar manutenção para o Tipo II
-                estado = EstadoPosto.MANUTENCAO;
-            }
-        }
-    }
-
-    public void terminarProcessamento() {
-        // Finalizar processamento do produto atual
-        if (estado == EstadoPosto.OCUPADO) {
-            estado = EstadoPosto.PARADO;
-        }
-    }
-
-    public void alterarEstadoManutencao() {
-        if (estado == EstadoPosto.MANUTENCAO) {
-            estado = EstadoPosto.ESPERA;
-        } else {
-            estado = EstadoPosto.MANUTENCAO;
-        }
-    }
-
     public String getId() {
         return id;
-    }
-
-    public EstadoPosto getEstado() {
-        return estado;
     }
 
     public TipoPosto getTipo() {
@@ -90,6 +47,10 @@ public class PostoTrabalho {
         return duracaoManutencao;
     }
 
+    public EstadoPosto getEstado() {
+        return estado;
+    }
+
     @Override
     public String toString() {
         return "PostoTrabalho [id=" + id + ", tipo=" + tipo + ", tempoProcessamento=" + tempoProcessamento
@@ -98,7 +59,47 @@ public class PostoTrabalho {
                 + transportadoraEntrada.getId() + ", transportadoraSaida=" + transportadoraSaida.getId() + "]";
     }
 
-    
+    public void conectarTransportadoraEntrada(Transportadora transportadora) {
+        this.transportadoraEntrada = transportadora;
+    }
+
+    public void conectarTransportadoraSaida(Transportadora transportadora) {
+        this.transportadoraSaida = transportadora;
+    }
+
+    // Iniciar processamento de um novo produto
+    public void processarProduto() {
+
+        if (estado == EstadoPosto.ESPERA || estado == EstadoPosto.PARADO) {
+
+            estado = EstadoPosto.OCUPADO;
+            unidadesProduzidas++;
+
+            // Realizar manutenção para o Tipo I
+            if (tipo == TipoPosto.TIPO_I && unidadesProduzidas % intervaloManutencao == 0) {
+                estado = EstadoPosto.MANUTENCAO;
+            
+                // Realizar manutenção para o Tipo II
+            } else if (tipo == TipoPosto.TIPO_II && unidadesProduzidas % intervaloManutencao == 0) {
+                estado = EstadoPosto.MANUTENCAO;
+            }
+        }
+    }
+
+    // Finalizar processamento do produto atual
+    public void terminarProcessamento() {
+        if (estado == EstadoPosto.OCUPADO) {
+            estado = EstadoPosto.PARADO;
+        }
+    }
+
+    public void alterarEstadoManutencao() {
+        if (estado == EstadoPosto.MANUTENCAO) {
+            estado = EstadoPosto.ESPERA;
+        } else {
+            estado = EstadoPosto.MANUTENCAO;
+        }
+    }
 
 }
 
