@@ -6,29 +6,46 @@ public class Main {
     public static void main(String[] args) {
 
         // Criação dos postos de trabalho
-        PostoTrabalhoI posto1 = new PostoTrabalhoI("P1", 10);
-        PostoTrabalhoII posto2 = new PostoTrabalhoII("P2", 5, 15);
+        PostoTrabalhoI postoA = new PostoTrabalhoI("POSTO_A", 10);
+        PostoTrabalhoII postoB = new PostoTrabalhoII("POSTO_B", 5, 15);
+        PostoTrabalhoII postoC = new PostoTrabalhoII("POSTO_C", 5, 15);
+        PostoTrabalhoI postoD = new PostoTrabalhoI("POSTO_D", 20);
 
         // Criação das transportadoras
-        Transportadora entradaLinha = new Transportadora("IN", Integer.MAX_VALUE);
-        Transportadora transportadora1 = new Transportadora("T1", 5);
-        Transportadora transportadora2 = new Transportadora("T2", 3);
-        Transportadora saidaLinha = new Transportadora("OUT", Integer.MAX_VALUE);
+        Transportadora entradaLinha = new Transportadora("ENTRADA", Integer.MAX_VALUE);
+        Transportadora transportadora1 = new Transportadora("TRANSPORTADORA_1", 5);
+        Transportadora transportadora2 = new Transportadora("TRANSPORTADORA_2", 3);
+        Transportadora saidaLinha = new Transportadora("SAIDA", Integer.MAX_VALUE);
 
         // Conexão entre as transportadoras e postos de trabalho
-        entradaLinha.conectarPostoTrabalhoSaida(posto1);
-        posto1.conectarTransportadoraEntrada(entradaLinha);
 
-        transportadora1.conectarPostoTrabalhoEntrada(posto1);
-        posto1.conectarTransportadoraSaida(transportadora1);
+        // ENTRADA => POSTO_A
+        entradaLinha.conectarPostoTrabalhoSaida(postoA);
 
-        transportadora1.conectarPostoTrabalhoSaida(posto2);
-        posto2.conectarTransportadoraEntrada(transportadora1);
+        // POSTO_A => TRANSPORTADORA_1
+        transportadora1.conectarPostoTrabalhoEntrada(postoA);
 
-        transportadora2.conectarPostoTrabalhoEntrada(posto2);
-        posto2.conectarTransportadoraSaida(transportadora2);
+        // TRANSPORTADORA_1 => POSTO_B e C
+        transportadora1.conectarPostoTrabalhoSaida(postoB);
+        transportadora1.conectarPostoTrabalhoSaida(postoC);
 
+        // POSTO_B e C => TRANSPORTADORA_2
+        transportadora2.conectarPostoTrabalhoEntrada(postoB);
+        transportadora2.conectarPostoTrabalhoEntrada(postoC);
+        
+        // TRANSPORTADORA_2 => POSTO_D
+        transportadora2.conectarPostoTrabalhoSaida(postoD);
+
+        // POSTO_D => SAIDA
+        saidaLinha.conectarPostoTrabalhoEntrada(postoD);
+
+        /*
         // Simulação de produção na linha
+        entradaLinha.armazenarProduto();
+        entradaLinha.armazenarProduto();
+        entradaLinha.armazenarProduto();
+        entradaLinha.armazenarProduto();
+
         for (int i = 1; i <= 100; i++) {
             // Processamento nos postos de trabalho
             posto1.processarProduto();
@@ -42,6 +59,7 @@ public class Main {
             transportadora2.liberarProduto();
             saidaLinha.armazenarProduto();
         }
+        
 
         // Exibição das informações finais
         System.out.println("Transportadora " + transportadora1.getId() + ":");
@@ -52,5 +70,15 @@ public class Main {
 
         System.out.println("Transportadora " + saidaLinha.getId() + ":");
         System.out.println("Produtos Armazenados: " + saidaLinha.getProdutosArmazenados());
+
+        */
+
+        System.out.println(postoA);
+        System.out.println();
+        System.out.println(postoB);
+        System.out.println();
+        System.out.println(postoC);
+        System.out.println();
+        System.out.println(postoD);
     }
 }

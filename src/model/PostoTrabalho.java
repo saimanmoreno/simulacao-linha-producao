@@ -94,8 +94,11 @@ public class PostoTrabalho {
     public String toString() {
         return "PostoTrabalho [id=" + id + ", tipo=" + tipo + ", tempoProcessamento=" + tempoProcessamento
                 + ", unidadesProduzidas=" + unidadesProduzidas + ", intervaloManutencao=" + intervaloManutencao
-                + ", duracaoManutencao=" + duracaoManutencao + ", estado=" + estado + "]";
+                + ", duracaoManutencao=" + duracaoManutencao + ", estado=" + estado + ", transportadoraEntrada="
+                + transportadoraEntrada.getId() + ", transportadoraSaida=" + transportadoraSaida.getId() + "]";
     }
+
+    
 
 }
 

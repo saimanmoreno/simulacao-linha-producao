@@ -48,19 +48,22 @@ public class Transportadora {
     
     public void conectarPostoTrabalhoEntrada(PostoTrabalho postoTrabalho) {
         postosTrabalhoEntrada.add(postoTrabalho);
-        postoTrabalho.conectarTransportadoraEntrada(this);
+        postoTrabalho.conectarTransportadoraSaida(this);
     }
 
     public void conectarPostoTrabalhoSaida(PostoTrabalho postoTrabalho) {
         postosTrabalhoSaida.add(postoTrabalho);
-        postoTrabalho.conectarTransportadoraSaida(this);
+        postoTrabalho.conectarTransportadoraEntrada(this);
     }
 
     @Override
     public String toString() {
         return "Transportadora [id=" + id + ", capacidade=" + capacidade + ", produtosArmazenados="
-                + produtosArmazenados + "]";
+                + produtosArmazenados + ", postosTrabalhoEntrada=" + postosTrabalhoEntrada.toString() + ", postosTrabalhoSaida="
+                + postosTrabalhoSaida.toString() + "]";
     }
+
+    
 }
 
 
