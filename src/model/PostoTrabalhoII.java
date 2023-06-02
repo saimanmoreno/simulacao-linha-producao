@@ -5,6 +5,7 @@ import java.util.Random;
 public class PostoTrabalhoII extends PostoTrabalho {
     private static final int INTERVALO_MANUTENCAO = 100;
     private static final int DURACAO_MANUTENCAO = 60;
+    private final int tempoProcessamentoMax;
     private final int tempoProcessamentoMin;
 
     public PostoTrabalhoII(String id, int tempoProcessamentoMin, int tempoProcessamentoMax) {
@@ -23,7 +24,6 @@ public class PostoTrabalhoII extends PostoTrabalho {
         return tempoProcessamentoMin;
     }
 
-    private final int tempoProcessamentoMax;
 
     public int getTempoProcessamentoMax() {
         return tempoProcessamentoMax;
