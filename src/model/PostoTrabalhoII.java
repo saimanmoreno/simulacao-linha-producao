@@ -7,10 +7,10 @@ public class PostoTrabalhoII extends PostoTrabalho {
     private static final int DURACAO_MANUTENCAO = 60;
     private final int tempoProcessamentoMax;
     private final int tempoProcessamentoMin;
+    
+    public PostoTrabalhoII(String id, Transportadora transportadoraEntrada, Transportadora transportadoraSaida, int tempoProcessamentoMin, int tempoProcessamentoMax) {
+        super(id, TipoPosto.TIPO_II, transportadoraEntrada, transportadoraSaida, getRandomTempoProcessamento(tempoProcessamentoMin, tempoProcessamentoMax), INTERVALO_MANUTENCAO, DURACAO_MANUTENCAO);
 
-    public PostoTrabalhoII(String id, int tempoProcessamentoMin, int tempoProcessamentoMax) {
-        super(id, TipoPosto.TIPO_II, getRandomTempoProcessamento(tempoProcessamentoMin, tempoProcessamentoMax),
-                INTERVALO_MANUTENCAO, DURACAO_MANUTENCAO);
         this.tempoProcessamentoMin = tempoProcessamentoMin;
         this.tempoProcessamentoMax = tempoProcessamentoMax;
     }

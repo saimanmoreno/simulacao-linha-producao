@@ -12,8 +12,7 @@ public class PostoTrabalho {
     private Transportadora transportadoraEntrada;
     private Transportadora transportadoraSaida;
 
-    public PostoTrabalho(String id, TipoPosto tipo, int tempoProcessamento, int intervaloManutencao,
-            int duracaoManutencao) {
+    public PostoTrabalho(String id, TipoPosto tipo, Transportadora transportadoraEntrada, Transportadora transportadoraSaida, int tempoProcessamento, int intervaloManutencao, int duracaoManutencao) {
         this.id = id;
         this.tipo = tipo;
         this.tempoProcessamento = tempoProcessamento;
@@ -21,7 +20,56 @@ public class PostoTrabalho {
         this.duracaoManutencao = duracaoManutencao;
         this.estado = EstadoPosto.ESPERA;
         this.unidadesProduzidas = 0;
+
+        conectarTransportadoraEntrada(transportadoraEntrada);
+        conectarTransportadoraSaida(transportadoraSaida);
     }
+
+    public void conectarTransportadoraEntrada(Transportadora transportadora) {
+        this.transportadoraEntrada = transportadora;
+        transportadora.conectarPostoTrabalhoSaida(this);
+    }
+
+    public void conectarTransportadoraSaida(Transportadora transportadora) {
+        this.transportadoraSaida = transportadora;
+        transportadora.conectarPostoTrabalhoEntrada(this);
+    }
+
+    // Iniciar processamento de um novo produto
+    public void processarProduto() {
+
+        if (estado == EstadoPosto.ESPERA || estado == EstadoPosto.PARADO) {
+
+            estado = EstadoPosto.OCUPADO;
+            unidadesProduzidas++;
+
+            // Realizar manutenção para o Tipo I
+            if (tipo == TipoPosto.TIPO_I && unidadesProduzidas % intervaloManutencao == 0) {
+                estado = EstadoPosto.MANUTENCAO;
+
+                // Realizar manutenção para o Tipo II
+            } else if (tipo == TipoPosto.TIPO_II && unidadesProduzidas % intervaloManutencao == 0) {
+                estado = EstadoPosto.MANUTENCAO;
+            }
+        }
+    }
+
+    // Finalizar processamento do produto atual
+    public void terminarProcessamento() {
+        if (estado == EstadoPosto.OCUPADO) {
+            estado = EstadoPosto.PARADO;
+        }
+    }
+
+    public void alterarEstadoManutencao() {
+        if (estado == EstadoPosto.MANUTENCAO) {
+            estado = EstadoPosto.ESPERA;
+        } else {
+            estado = EstadoPosto.MANUTENCAO;
+        }
+    }
+
+    // GETTERS AND SETTERS
 
     public String getId() {
         return id;
@@ -53,52 +101,10 @@ public class PostoTrabalho {
 
     @Override
     public String toString() {
-        return "PostoTrabalho [id=" + id + ", tipo=" + tipo + ", tempoProcessamento=" + tempoProcessamento
-                + ", unidadesProduzidas=" + unidadesProduzidas + ", intervaloManutencao=" + intervaloManutencao
-                + ", duracaoManutencao=" + duracaoManutencao + ", estado=" + estado + ", transportadoraEntrada="
-                + transportadoraEntrada.getId() + ", transportadoraSaida=" + transportadoraSaida.getId() + "]";
-    }
-
-    public void conectarTransportadoraEntrada(Transportadora transportadora) {
-        this.transportadoraEntrada = transportadora;
-    }
-
-    public void conectarTransportadoraSaida(Transportadora transportadora) {
-        this.transportadoraSaida = transportadora;
-    }
-
-    // Iniciar processamento de um novo produto
-    public void processarProduto() {
-
-        if (estado == EstadoPosto.ESPERA || estado == EstadoPosto.PARADO) {
-
-            estado = EstadoPosto.OCUPADO;
-            unidadesProduzidas++;
-
-            // Realizar manutenção para o Tipo I
-            if (tipo == TipoPosto.TIPO_I && unidadesProduzidas % intervaloManutencao == 0) {
-                estado = EstadoPosto.MANUTENCAO;
-            
-                // Realizar manutenção para o Tipo II
-            } else if (tipo == TipoPosto.TIPO_II && unidadesProduzidas % intervaloManutencao == 0) {
-                estado = EstadoPosto.MANUTENCAO;
-            }
-        }
-    }
-
-    // Finalizar processamento do produto atual
-    public void terminarProcessamento() {
-        if (estado == EstadoPosto.OCUPADO) {
-            estado = EstadoPosto.PARADO;
-        }
-    }
-
-    public void alterarEstadoManutencao() {
-        if (estado == EstadoPosto.MANUTENCAO) {
-            estado = EstadoPosto.ESPERA;
-        } else {
-            estado = EstadoPosto.MANUTENCAO;
-        }
+        return "PostoTrabalho [id=" + id + ", \n\ttipo=" + tipo + ", \n\ttempoProcessamento=" + tempoProcessamento
+                + ", \n\tunidadesProduzidas=" + unidadesProduzidas + ", \n\tintervaloManutencao=" + intervaloManutencao
+                + ", \n\tduracaoManutencao=" + duracaoManutencao + ", \n\testado=" + estado + ", \n\ttransportadoraEntrada="
+                + transportadoraEntrada.getId() + ", \n\ttransportadoraSaida=" + transportadoraSaida.getId() + "\n]";
     }
 
 }

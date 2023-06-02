@@ -1,3 +1,9 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import model.PostoTrabalho;
 import model.PostoTrabalhoI;
 import model.PostoTrabalhoII;
 import model.Transportadora;
@@ -5,80 +11,88 @@ import model.Transportadora;
 public class Main {
     public static void main(String[] args) {
 
-        // Criação dos postos de trabalho
-        PostoTrabalhoI postoA = new PostoTrabalhoI("POSTO_A", 10);
-        PostoTrabalhoII postoB = new PostoTrabalhoII("POSTO_B", 5, 15);
-        PostoTrabalhoII postoC = new PostoTrabalhoII("POSTO_C", 5, 15);
-        PostoTrabalhoI postoD = new PostoTrabalhoI("POSTO_D", 20);
+        String descricao = "T1 1 3\n" +
+                "T2 1 3\n" +
+                "PI A IN T1 12\n" +
+                "PII B T1 T2 10 18\n" +
+                "PI C T1 T2 14\n" +
+                "PII D T2 OUT 5 30";
 
-        // Criação das transportadoras
-        Transportadora entradaLinha = new Transportadora("ENTRADA", Integer.MAX_VALUE);
-        Transportadora transportadora1 = new Transportadora("TRANSPORTADORA_1", 5);
-        Transportadora transportadora2 = new Transportadora("TRANSPORTADORA_2", 3);
-        Transportadora saidaLinha = new Transportadora("SAIDA", Integer.MAX_VALUE);
+        Map<String, Transportadora> transportadoras = new HashMap<>();
+        List<PostoTrabalho> postosTrabalho = new ArrayList<>();
 
-        // Conexão entre as transportadoras e postos de trabalho
+        Transportadora transportadoraIn = new Transportadora("IN", Integer.MAX_VALUE, Integer.MAX_VALUE);
+        transportadoras.put("IN", transportadoraIn);
 
-        // ENTRADA => POSTO_A
-        entradaLinha.conectarPostoTrabalhoSaida(postoA);
+        Transportadora transportadoraOut = new Transportadora("OUT", Integer.MAX_VALUE, Integer.MAX_VALUE);
+        transportadoras.put("OUT", transportadoraOut);
 
-        // POSTO_A => TRANSPORTADORA_1
-        transportadora1.conectarPostoTrabalhoEntrada(postoA);
+        String[] linhas = descricao.split("\n");
 
-        // TRANSPORTADORA_1 => POSTO_B e C
-        transportadora1.conectarPostoTrabalhoSaida(postoB);
-        transportadora1.conectarPostoTrabalhoSaida(postoC);
+        for (String linha : linhas) {
 
-        // POSTO_B e C => TRANSPORTADORA_2
-        transportadora2.conectarPostoTrabalhoEntrada(postoB);
-        transportadora2.conectarPostoTrabalhoEntrada(postoC);
-        
-        // TRANSPORTADORA_2 => POSTO_D
-        transportadora2.conectarPostoTrabalhoSaida(postoD);
+            String[] partes = linha.split(" ");
 
-        // POSTO_D => SAIDA
-        saidaLinha.conectarPostoTrabalhoEntrada(postoD);
+            if (partes[0].startsWith("T")) {
 
-        /*
-        // Simulação de produção na linha
-        entradaLinha.armazenarProduto();
-        entradaLinha.armazenarProduto();
-        entradaLinha.armazenarProduto();
-        entradaLinha.armazenarProduto();
+                // Linha contém informações de transportadora
+                String identificador = partes[0];
+                int capacidade = Integer.parseInt(partes[1]);
+                int tempoMaximoTransporte = Integer.parseInt(partes[2]);
 
-        for (int i = 1; i <= 100; i++) {
-            // Processamento nos postos de trabalho
-            posto1.processarProduto();
-            posto2.processarProduto();
+                Transportadora transportadora = new Transportadora(identificador, capacidade, tempoMaximoTransporte);
+                transportadoras.put(identificador, transportadora);
 
-            // Movimentação dos produtos entre as transportadoras
-            entradaLinha.liberarProduto();
-            transportadora1.armazenarProduto();
-            transportadora1.liberarProduto();
-            transportadora2.armazenarProduto();
-            transportadora2.liberarProduto();
-            saidaLinha.armazenarProduto();
+            } else {
+
+                // Linha contém informações de posto de trabalho
+                String tipo = partes[0];
+                String identificador = partes[1];
+                String idTransportadoraEntrada = partes[2];
+                String idTransportadoraSaida = partes[3];
+                int tempoProc1 = Integer.parseInt(partes[4]);
+
+                Transportadora transportadoraEntrada = transportadoras.get(idTransportadoraEntrada);
+                Transportadora transportadoraSaida = transportadoras.get(idTransportadoraSaida);
+
+                // A transportadora foi encontrada
+                if (transportadoraEntrada != null && transportadoraSaida != null) {
+
+                    if (tipo.equals("PI")) {
+
+                        PostoTrabalhoI postoTrabalhoI = new PostoTrabalhoI(identificador, transportadoraEntrada,
+                                transportadoraSaida, tempoProc1);
+                        postosTrabalho.add(postoTrabalhoI);
+
+                    } else if (tipo.equals("PII")) {
+
+                        int tempoProc2 = Integer.parseInt(partes[5]);
+
+                        PostoTrabalhoII postoTrabalhoII = new PostoTrabalhoII(identificador, transportadoraEntrada,
+                                transportadoraSaida, tempoProc1, tempoProc2);
+                        postosTrabalho.add(postoTrabalhoII);
+
+                    }
+
+                    // A transportadora não foi encontrada
+                } else {
+                    System.out.println("Transportadora não encontrada com o ID: " + idTransportadoraEntrada + " ou "
+                            + idTransportadoraSaida);
+                }
+
+            }
         }
-        
 
-        // Exibição das informações finais
-        System.out.println("Transportadora " + transportadora1.getId() + ":");
-        System.out.println("Produtos Armazenados: " + transportadora1.getProdutosArmazenados());
+        // Exemplo de uso dos dados coletados
+        System.out.println("Transportadoras:");
+        for (Transportadora transportadora : transportadoras.values()) {
+            System.out.println(transportadora);
+        }
 
-        System.out.println("Transportadora " + transportadora2.getId() + ":");
-        System.out.println("Produtos Armazenados: " + transportadora2.getProdutosArmazenados());
+        System.out.println("\nPostos de Trabalho:");
+        for (PostoTrabalho postoTrabalho : postosTrabalho) {
+            System.out.println(postoTrabalho);
+        }
 
-        System.out.println("Transportadora " + saidaLinha.getId() + ":");
-        System.out.println("Produtos Armazenados: " + saidaLinha.getProdutosArmazenados());
-
-        */
-
-        System.out.println(postoA);
-        System.out.println();
-        System.out.println(postoB);
-        System.out.println();
-        System.out.println(postoC);
-        System.out.println();
-        System.out.println(postoD);
     }
 }

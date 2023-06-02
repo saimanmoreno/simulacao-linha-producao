@@ -6,14 +6,22 @@ import java.util.List;
 public class Transportadora {
     private String id;
     private int capacidade;
+    private int tempoMaximoTransporte;
     private int produtosArmazenados;
     private List<PostoTrabalho> postosTrabalhoEntrada;
     private List<PostoTrabalho> postosTrabalhoSaida;
 
-    public Transportadora(String id, int capacidade) {
+    public Transportadora(String id, int capacidade, int tempoMaximoTransporte) {
         this.id = id;
         this.capacidade = capacidade;
-        this.produtosArmazenados = 0;
+        this.tempoMaximoTransporte = tempoMaximoTransporte;
+
+        if (id == "IN" || id == "OUT") {
+            this.produtosArmazenados = Integer.MAX_VALUE;
+        } else {
+            this.produtosArmazenados = 0;
+        }
+
         this.postosTrabalhoEntrada = new ArrayList<>();
         this.postosTrabalhoSaida = new ArrayList<>();
     }
@@ -24,6 +32,10 @@ public class Transportadora {
 
     public int getCapacidade() {
         return capacidade;
+    }
+
+    public int getTempoMaximoTransporte() {
+        return tempoMaximoTransporte;
     }
 
     public int getProdutosArmazenados() {
@@ -45,25 +57,19 @@ public class Transportadora {
             produtosArmazenados--;
         }
     }
-    
+
     public void conectarPostoTrabalhoEntrada(PostoTrabalho postoTrabalho) {
         postosTrabalhoEntrada.add(postoTrabalho);
-        postoTrabalho.conectarTransportadoraSaida(this);
     }
 
     public void conectarPostoTrabalhoSaida(PostoTrabalho postoTrabalho) {
         postosTrabalhoSaida.add(postoTrabalho);
-        postoTrabalho.conectarTransportadoraEntrada(this);
     }
 
     @Override
     public String toString() {
-        return "Transportadora [id=" + id + ", capacidade=" + capacidade + ", produtosArmazenados="
-                + produtosArmazenados + ", postosTrabalhoEntrada=" + postosTrabalhoEntrada.toString() + ", postosTrabalhoSaida="
-                + postosTrabalhoSaida.toString() + "]";
+        return "Transportadora [\n\tid=" + id + ", \n\tcapacidade=" + capacidade + ", \n\ttempoMaximoTransporte="
+                + tempoMaximoTransporte + ", \n\tprodutosArmazenados=" + produtosArmazenados + ", \n\tpostosTrabalhoEntrada="
+                + postosTrabalhoEntrada + ", \n\tpostosTrabalhoSaida=" + postosTrabalhoSaida + "\n]";
     }
-
-    
 }
-
-
