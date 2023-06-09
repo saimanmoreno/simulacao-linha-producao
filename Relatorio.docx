@@ -1,0 +1,30 @@
+Relatório - Sistema de Gerenciamento de Transportadoras e Postos de Trabalho
+
+Introdução
+O objetivo deste projeto é desenvolver um sistema de gerenciamento de transportadoras e postos de trabalho. O sistema permite a criação de transportadoras com capacidade de armazenamento e tempo máximo de transporte configuráveis, bem como a definição de postos de trabalho com diferentes tipos de processamento e intervalos de manutenção.
+
+Implementação
+O projeto foi implementado em Java, utilizando a linguagem de programação orientada a objetos. A estrutura do sistema é baseada em classes e objetos, permitindo a criação e manipulação de transportadoras e postos de trabalho.
+
+2.1 Classe Transportadora
+A classe Transportadora representa uma transportadora, com atributos como identificador, capacidade de armazenamento e tempo máximo de transporte. A capacidade de armazenamento é definida como o número máximo de produtos que a transportadora pode armazenar. O tempo máximo de transporte representa a quantidade máxima de tempo que um produto pode permanecer na transportadora antes de ser movido para o próximo destino. A classe também possui listas de postos de trabalho de entrada e saída, permitindo a conexão com os postos de trabalho correspondentes.
+
+2.2 Classe PostoTrabalho
+A classe PostoTrabalho é uma classe abstrata que representa um posto de trabalho genérico. Ela possui atributos comuns a todos os tipos de postos de trabalho, como identificador, tipo (Tipo I ou Tipo II), tempo de processamento, unidades produzidas, intervalo de manutenção e duração da manutenção. Além disso, a classe possui referências para as transportadoras de entrada e saída, permitindo a conexão com as transportadoras correspondentes. A classe também define métodos para iniciar o processamento de um produto, finalizar o processamento e alterar o estado de manutenção do posto de trabalho.
+
+2.3 Classes PostoTrabalhoI e PostoTrabalhoII
+As classes PostoTrabalhoI e PostoTrabalhoII são subclasses da classe PostoTrabalho e representam os diferentes tipos de postos de trabalho disponíveis. A classe PostoTrabalhoI é usada para postos de trabalho do Tipo I, enquanto a classe PostoTrabalhoII é usada para postos de trabalho do Tipo II. Essas subclasses herdam os atributos e métodos da classe PostoTrabalho e adicionam atributos e lógica específicos para cada tipo de posto de trabalho. Por exemplo, o PostoTrabalhoI possui um intervalo de manutenção fixo de 50 unidades produzidas e uma duração de manutenção de 30 unidades produzidas mais o tempo de processamento. Já o PostoTrabalhoII possui um intervalo de manutenção fixo de 100 unidades produzidas e uma duração de manutenção de 60 unidades produzidas, além de um tempo de processamento mínimo e máximo, que são gerados aleatoriamente dentro dos limites especificados.
+
+Funcionamento do Sistema
+O sistema utiliza a classe Main como ponto de entrada. O método main recebe uma descrição em formato de string que contém as informações das transportadoras e postos de trabalho a serem criados. Essas informações são processadas e utilizadas para instanciar objetos das classes Transportadora, PostoTrabalhoI e PostoTrabalhoII. As transportadoras e postos de trabalho são conectados uns aos outros conforme definido na descrição.
+O sistema executa um loop principal que simula o processamento dos produtos pelas transportadoras e postos de trabalho. A cada iteração do loop, o sistema verifica se existem produtos prontos para serem movidos para o próximo destino. Se uma transportadora estiver cheia ou um produto atingir o tempo máximo de transporte, ele é movido para o próximo destino. Os postos de trabalho processam os produtos recebidos e atualizam as unidades produzidas. Quando um posto de trabalho atinge o intervalo de manutenção, ele é colocado em modo de manutenção por um período de tempo determinado.
+
+Resultados e Análise
+Ao executar o sistema com diferentes configurações de transportadoras e postos de trabalho, foi observado que o sistema consegue gerenciar adequadamente o fluxo de produtos, garantindo que eles sejam processados nos postos de trabalho corretos e movidos para as transportadoras apropriadas.
+No entanto, algumas limitações foram identificadas. O sistema não trata casos de congestionamento de produtos em postos de trabalho ou transportadoras. Além disso, a lógica de manutenção dos postos de trabalho pode ser aprimorada para considerar diferentes estratégias de manutenção, como priorizar postos de trabalho com maior produção ou menor tempo de processamento.
+
+Conclusão
+Em conclusão, o sistema de gerenciamento de transportadoras e postos de trabalho desenvolvido demonstrou ser eficiente na simulação do fluxo de produtos. A estrutura de classes e objetos permitiu uma implementação flexível e extensível. No entanto, existem oportunidades de melhoria, como tratar congestionamentos e aprimorar a lógica de manutenção dos postos de trabalho.
+
+Referências
+[Incluir aqui as referências utilizadas durante o desenvolvimento do projeto, se aplicável]
